@@ -1,0 +1,67 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE"
+        classpath "com.palantir:jacoco-coverage:0.4.0"
+        classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.10"
+        classpath "org.musca:overall-report:1.0-SNAPSHOT"
+    }
+}
+
+group "java.dummy"
+version "1.0-SNAPSHOT"
+
+apply plugin: "java"
+apply plugin: "spring-boot"
+apply plugin: "com.palantir.jacoco-full-report"
+apply plugin: "checkstyle"
+apply plugin: "findbugs"
+apply plugin: "pmd"
+apply plugin: "build-dashboard"
+apply plugin: "project-report"
+apply plugin: "info.solidsoft.pitest"
+apply plugin: "org.musca.overall-report"
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-web:1.4.0.RELEASE"
+    compile "com.google.guava:guava:19.0"
+    
+    testCompile "org.springframework.boot:spring-boot-starter-test:1.4.0.RELEASE"
+    testCompile "junit:junit:4.12"
+    testCompile "org.assertj:assertj-core:3.5.2"
+    testCompile "info.cukes:cucumber-java8:1.2.4"
+    testCompile "info.cukes:cucumber-junit:1.2.4"
+}
+
+checkstyle {
+    toolVersion = "7.1.1"
+}
+
+pitest {
+    targetClasses = ["myjava.dummy.*"]  //by default "${project.group}.*"
+    threads = 4
+    outputFormats = ["XML", "HTML"]
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
+        html.stylesheet resources.text.fromFile("config/xsl/findbugs.xsl")
+    }
+}
+
+build.dependsOn += ["pitest"]
