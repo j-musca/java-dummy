@@ -9,7 +9,6 @@ buildscript {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.0.RELEASE"
         classpath "com.palantir:jacoco-coverage:0.4.0"
         classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.10"
-        classpath "org.musca:overall-report:1.0-SNAPSHOT"
     }
 }
 
@@ -25,7 +24,6 @@ apply plugin: "pmd"
 apply plugin: "build-dashboard"
 apply plugin: "project-report"
 apply plugin: "info.solidsoft.pitest"
-apply plugin: "org.musca.overall-report"
 
 sourceCompatibility = 1.8
 
